@@ -95,7 +95,8 @@ ex: *ghcr.io/brave-hawk/salesforce_ci-cd* with tag: *latest-slim*
 
 
 To publish to your image to GHCR:
-``` docker push ghcr.io/brave-hawk/salesforce_ci-cd:latest-slim
+```
+ docker push ghcr.io/brave-hawk/salesforce_ci-cd:latest-slim
 ```
 
 
