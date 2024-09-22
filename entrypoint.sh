@@ -23,5 +23,5 @@ echo "        \/                      \/        \/             "
 echo "Welcome to Brave Hawk CI-CD"
 echo "By brave-hawk (RMUN)" 
 
-# Execute any additional commands passed in
-#exec "$@"
+#Execute any additional commands passed in
+exec "$@"
