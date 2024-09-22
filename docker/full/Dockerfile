@@ -4,8 +4,10 @@ FROM salesforce/cli:latest-full
 # Set the maintainer label
 LABEL maintainer="brave-hawk"
  
-# Install sfdx-git-delta and auto-respond 'y' to the prompt
-RUN echo 'y' | sf plugins install sfdx-git-delta
+# Install sfdx-git-delta
+RUN mkdir -p $HOME/.config/sf
+RUN jq -n '["sfdx-templates", "sfdx-git-delta"]' > $HOME/.config/sf/unsignedPluginAllowList.json
+RUN sf plugins install sfdx-git-delta
  
 # Install SFDX Scanner
 RUN sf plugins install @salesforce/sfdx-scanner

@@ -1,22 +1,42 @@
-# This workflow publishes the brave-hawk salesforce_ci-cd image
-name: Publish Docker image
+name: Build and Push Docker Images
 
 on:
-  push
+  push:
+    branches:
+      - main  # This will trigger the workflow on a push to the 'main' branch
+  workflow_dispatch:  # This allows manual triggering of the workflow
 
 jobs:
-  build_and_publish_image:
-    name: Build the and publish the Docker image
+  build-and-push:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Check out the repo
+      # Step 1: Checkout the repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Log in to Docker Hub
-        run : docker login --username brave-hawk --password ${{ secrets.DOCKER_GHCR_TOKEN }} ghcr.io
+      # Step 2: Log in to GitHub Container Registry (ghcr.io)
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: brave-hawk
+          password: ${{ secrets.DOCKER_GHCR_TOKEN }}
 
-      - name: Build the image
-        run : docker build . --tag ghcr.io/brave-hawk/salesforce_ci-cd:latest
+      # Step 3: Build and push 'full' image
+      - name: Build and push full image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/full/Dockerfile  # Dockerfile location for full image
+          tags: ghcr.io/brave-hawk/salesforce_ci-cd:latest  # Tag for the full image
+          push: true  # Push the image after building
 
-      - name: Publish the image
-        run : docker push ghcr.io/brave-hawk/salesforce_ci-cd:latest
+      # Step 4: Build and push 'slim' image
+      - name: Build and push slim image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/slim/Dockerfile  # Dockerfile location for slim image
+          tags: ghcr.io/brave-hawk/salesforce_ci-cd:latest-slim  # Tag for the slim image
+          push: true  # Push the image after building

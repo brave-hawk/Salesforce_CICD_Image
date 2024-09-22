@@ -1,0 +1,16 @@
+services:
+  full:
+    # Will build ./docker/full/Dockerfile
+    # The full version of salesforce/cli
+    build:
+      context: .
+      dockerfile: docker/full/Dockerfile
+    image: ghcr.io/brave-hawk/salesforce_ci-cd:latest
+
+  slim:
+    # Will build ./docker/slim/Dockerfile
+    # The slim version of salesforce/cli
+    build:
+      context: .
+      dockerfile: docker/full/Dockerfile
+    image: ghcr.io/brave-hawk/salesforce_ci-cd:latest-slim
