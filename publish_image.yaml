@@ -1,0 +1,22 @@
+# This workflow publishes the brave-hawk salesforce_ci-cd image
+name: Publish Docker image
+
+on:
+  push
+
+jobs:
+  build_and_publish_image:
+    name: Build the and publish the Docker image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        run : docker login --username brave-hawk --password ${{ secrets.DOCKER_TOKEN }} ghcr.io
+
+      - name: Build the image
+        run : docker build . --tag ghcr.io/brave-hawk/salesforce_ci-cd:latest
+
+      - name: Publish the image
+        run : docker push ghcr.io/brave-hawk/salesforce_ci-cd:latest
