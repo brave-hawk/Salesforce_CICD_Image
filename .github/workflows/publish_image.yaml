@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main  # This will trigger the workflow on a push to the 'main' branch
+    paths-ignore:
+      - 'README.md'
   workflow_dispatch:  # This allows manual triggering of the workflow
 
 jobs:
